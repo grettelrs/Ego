@@ -44,41 +44,33 @@ Guardar(req,res) {
     
     
 Login(req,res) {
-      Item.find({EMAIL:req.body._EMAIL}, function(err, item) {
-
+      Item.find({EMAIL:req.body.EMAIL}, function(err, item) {
       if (err){
-        res.send(err)}
-
-        else{
-
-              if(item.length ==0)
+        res.send(err);
+      }
+        else{console.log(item[0].CLAVE);
+            if(administradorinstanciado.validPassword(req.body.CLAVE,item[0].CLAVE,item[0].SALT))
                 {
-                    res.status(400).send({
-                    message : "Datos incorrectos"   });
-                }
-            else{
-
-            console.log(item[0].CLAVE);
-            if(administradorinstanciado.validPassword(req.body._CLAVE,item[0].CLAVE,item[0].SALT))
-                {
-                    item[0].SALT="NO F..ING WAY";
-          res.json(item); // devuelve todas las Personas en JSON
+                   item[0].SALT="NO F..ING WAY";
+                 res.json(item); // devuelve todas las Personas en JSON 
                 }
             else
                 {
-                    res.status(400).send({
+                    res.status(400).send({ 
                     message : "Datos incorrectos"
-                });
-                }}
-
-
-
+                }); 
+                }
+        
         }
-
-
-
-
-        });}
+    
+    
+    
+    
+    
+    
+    
+    }
+      );
 
 
 }
